@@ -1,5 +1,7 @@
 from django.db import models
 
+from .managers import TransactionManager
+
 KINDS = (
     ('in', 'In'),
     ('out', 'Out'),
@@ -32,6 +34,8 @@ class Transaction(models.Model):
     when = models.DateField()
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     kind = models.CharField(max_length=3, choices=KINDS)
+
+    objects = TransactionManager()
 
     def __unicode__(self):
         return "%s - %s - %.2f" % (
