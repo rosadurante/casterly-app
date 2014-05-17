@@ -19,6 +19,10 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        verbose_name = u'Category'
+        verbose_name_plural = u'Categories'
+
 
 class Transaction(models.Model):
     account = models.ForeignKey(Account, related_name='transactions')
