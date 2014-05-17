@@ -1,3 +1,4 @@
+# encoding: utf-8
 from django.db import models
 
 from .managers import TransactionManager
@@ -38,6 +39,18 @@ class Transaction(models.Model):
     objects = TransactionManager()
 
     def __unicode__(self):
-        return "%s - %s - %.2f" % (
-            self.when.strftime("%Y/%m/%d"), self.description[:20], self.amount
-        )
+        if self.kind == 'out':
+            operation_sign = '-'
+        else:
+            operation_sign = ''
+
+        description = self.description
+        if len(description) > 20:
+            description = '%s...' % description[:20].strip()
+
+        return u"%(when)s - %(description)s - %(sign)s£%(amount).2f" % {
+            'when': self.when.strftime("%Y/%m/%d"),
+            'description': description,
+            'sign': operation_sign,
+            'amount': self.amount
+        }
