@@ -2,18 +2,18 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-9">
+        <div>
             <img alt="casterly" src=""/>
             <small>Our clients always pays their debts</small>
         </div>
-        <div class="col-xs-3">
+        <div>
             {% if user.is_anonymous %}
-                <a href="/accounts/login">Login</a>
+                <a href="{% url 'account_login' %}">Login</a>
                 or
-                <a href="/accounts/signup">register here</a>
+                <a href="{% url 'account_signup' %}">register here</a>
             {% else %}
                 Hello, {{ user }}!
-                <form action="/accounts/logout/" method="POST">
+                <form action="{% url 'account_logout' %}" method="POST">
                     {% csrf_token %}
                     <button type="submit">Logout</button>
                 </form>
