@@ -1,17 +1,14 @@
-<!-- doctype html -->
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Casterly</title>
-</head>
-<body>
-    <nav>
-        {% include "nav.html" %}
-    </nav>
+{% extends "base.html" %}
 
-    <section id="container">
-        <h1>Done!</h1>
-    </section>
+{% block bodyclass %}{{ block.super }} index-view{% endblock %}
 
-</body>
-</html>
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="jumbotron">
+            <p>Start managing your money with Casterly now!</p>
+            <p><a class="btn btn-primary btn-lg" role="button">Log in</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

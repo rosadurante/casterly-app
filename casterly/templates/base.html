@@ -1,0 +1,30 @@
+<!-- doctype html -->
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Casterly</title>
+    <link rel="stylesheet" href="{% static 'scss/styles.css' %}">
+</head>
+
+<body class="{% block bodyclass %}{% endblock %}">
+    <header>
+        <nav class="navbar navbar-default" role="navigation">
+            <a class="navbar-brand" href="#">Casterly</a>
+            <p class="navbar-text">Our users always pay their debts</p>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Log in</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="container">
+        {% block content %}
+
+        {% endblock %}
+    </section>
+</body>
+</html>
