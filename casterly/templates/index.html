@@ -6,12 +6,22 @@
 <div class="container">
     <div class="row">
         <div class="jumbotron">
-            <p>Start managing your money with Casterly now!</p>
-            <p><a
-                class="btn btn-primary btn-lg"
-                role="button" href="{% url 'account_login' %}">Log in
-                </a>
-            </p>
+            {% if user.is_anonymous %}
+                <p>Start managing your money with Casterly now!</p>
+                <p><a
+                    class="btn btn-primary btn-lg"
+                    role="button" href="{% url 'account_login' %}">Log in
+                    </a>
+                </p>
+            {% else %}
+                <p>Welcome! Start using Casterly by adding some transactions
+                and see where your money goes</p>
+                <p>
+                    <a class="btn btn-primary btn-lg" role="button" href="#">
+                        Transactions
+                    </a>
+                </p>
+            {% endif %}
         </div>
     </div>
 </div>

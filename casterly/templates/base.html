@@ -15,8 +15,17 @@
             <p class="navbar-text">Our users always pay their debts</p>
 
             <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Compare</a></li>
+                    <li><a href="#">Transactions</a></li>
+                {% endif %}
                 <li><a href="#">About us</a></li>
-                <li><a href="{% url 'account_login' %}">Log in</a></li>
+                {% if user.is_anonymous %}
+                    <li><a href="{% url 'account_login' %}">Log in</a></li>
+                {% else %}
+                    <li><a href="#">Log out</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
