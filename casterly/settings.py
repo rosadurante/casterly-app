@@ -60,6 +60,7 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
 
     'money',
 )
@@ -107,6 +108,8 @@ USE_L10N = True
 USE_TZ = True
 
 SITE_ID = 1
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Parse database configuration from $DATABASE_URL
 # import dj_database_url
