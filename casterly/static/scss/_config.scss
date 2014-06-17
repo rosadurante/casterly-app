@@ -1,0 +1,53 @@
+
+/* -----  Media queries  ----- */
+
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+$screen-lg-min: 1200px;
+
+/** Mobile first */
+$mobile-width: $screen-sm-min;
+/* Grid column class: col-xs- */
+
+/** Tablet size */
+$tablet-width: $screen-md-min;
+/* Grid column class: col-sm- */
+
+/** Desktop (laptop) */
+$desktop-width: $screen-lg-min;
+/* Grid column class: col-md- */
+/* Grid column class (+$desktop-width): col-lg- */
+
+
+/* ----- Colours  ----- */
+
+$white: #ffffff;
+$black: #000000;
+
+$gray_darkest: rgba(0,0,0,0.95);
+$gray_darker: rgba(0,0,0,0.80);
+$gray_dark: rgba(0,0,0,0.75);
+$gray: rgba(0,0,0,0.5);
+$gray_light: rgba(0,0,0,0.35);
+$gray_lighter: rgba(0,0,0,0.20);
+$gray_lightest: rgba(0,0,0,0.08);
+
+$orange: #EE875E;
+$purple: #775971;
+$dark-blue: #A3C7D3;
+$soft-blue: #8B96A8;
+
+$primary-colour: $orange;
+$secondary-colour: $purple;
+$terciary-colour: $dark-blue;
+$cuatriary-colour: $soft-blue;
+
+
+/* -----  Fonts  ----- */
+
+$font-family-base: "Helvetica Neue", Heveltica, Arial, sans-serif;
+$font-size-base: 14px;
+$font-weight-base: normal;
+$font-color-base: $gray_darkest;
+$line-height-base: 1.2em;
+

@@ -1,7 +1,12 @@
+body {
+    font-family: $font-family-base, serif;
+    font-size: $font-size-base;
+    font-weight: $font-weight-base;
+    color: $font-color-base;
+    line-height: $line-height-base;
+}
+
 .navbar-nav.navbar-right:last-child {
     margin-right: 0px;
 }
 
-.index-view .container .jumbotron {
-    text-align: center;
-}
