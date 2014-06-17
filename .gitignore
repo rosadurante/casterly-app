@@ -2,4 +2,5 @@
 db.sqlite3
 .sass-cache
 node_modules
-casterly/static/scss/styles.css
+casterly/static/css
+casterly/static/js/libs
