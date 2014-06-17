@@ -23,6 +23,7 @@
                 <li><a href="#">About us</a></li>
                 {% if user.is_anonymous %}
                     <li><a href="{% url 'account_login' %}">Log in</a></li>
+                    <li><a href="{% url 'account_signup' %}">Sign up</a></li>
                 {% else %}
                     <li><a href="#">Log out</a></li>
                 {% endif %}
