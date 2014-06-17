@@ -11,6 +11,9 @@ require.config({
     },
 
     shim: {
+        'bootstrap': {
+            deps: ['jquery']
+        },
         'underscore': {
             exports: '_'
         },

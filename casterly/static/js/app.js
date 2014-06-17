@@ -1,6 +1,6 @@
 /* globals define */
 
-define('app', ['jquery', 'underscore'], function ($, _) {
+define('app', ['jquery', 'underscore', 'bootstrap'], function ($, _) {
     'use strict';
 
     var application = {
