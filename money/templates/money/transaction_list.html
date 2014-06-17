@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block bodyclass %}{{ block.super }} transaction-view{% endblock %}
+
+{% block content %}
+<!-- Creating a transaction -->
+<div class="container">
+    <div class="row">
+        {% crispy form %}
+    </div>
+</div>
+
+<!-- Listing transactions -->
+<div class="container">
+    <div class="row">
+        <table>
+            <tbody>
+                {% for transaction in transaction_list %}
+                <tr><td>{{ transaction }}</td><tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
