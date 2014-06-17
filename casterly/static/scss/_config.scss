@@ -24,23 +24,23 @@ $desktop-width: $screen-lg-min;
 $white: #ffffff;
 $black: #000000;
 
-$gray_darkest: rgba(0,0,0,0.95);
-$gray_darker: rgba(0,0,0,0.80);
-$gray_dark: rgba(0,0,0,0.75);
+$gray-darkest: rgba(0,0,0,0.95);
+$gray-darker: rgba(0,0,0,0.80);
+$gray-dark: rgba(0,0,0,0.75);
 $gray: rgba(0,0,0,0.5);
-$gray_light: rgba(0,0,0,0.35);
-$gray_lighter: rgba(0,0,0,0.20);
-$gray_lightest: rgba(0,0,0,0.08);
+$gray-light: rgba(0,0,0,0.35);
+$gray-lighter: rgba(0,0,0,0.20);
+$gray-lightest: rgba(0,0,0,0.08);
 
 $orange: #EE875E;
 $purple: #775971;
-$dark-blue: #A3C7D3;
-$soft-blue: #8B96A8;
+$soft-blue: #A3C7D3;
+$dark-blue: #8B96A8;
 
 $primary-colour: $orange;
 $secondary-colour: $purple;
 $terciary-colour: $dark-blue;
-$cuatriary-colour: $soft-blue;
+$quaternary-colour: $soft-blue;
 
 
 /* -----  Fonts  ----- */
@@ -48,6 +48,6 @@ $cuatriary-colour: $soft-blue;
 $font-family-base: "Helvetica Neue", Heveltica, Arial, sans-serif;
 $font-size-base: 14px;
 $font-weight-base: normal;
-$font-color-base: $gray_darkest;
+$font-color-base: $gray-darker;
 $line-height-base: 1.2em;
 

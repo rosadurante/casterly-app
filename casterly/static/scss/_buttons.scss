@@ -1,0 +1,40 @@
+
+.btn {
+    border-radius: 0;
+    border-width: 0 0;
+}
+
+.btn-default, .btn-primary, .btn-secondary, .btn-terciary {
+    background-image: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    text-shadow: none;
+    &:hover {
+        border-color: transparent;
+        color: $white;
+    }
+}
+
+.btn-default {
+    border-color: $gray-light;
+    color: $gray-light;
+    &:hover { background-color: $gray-light; }
+}
+
+.btn-primary {
+    border-color: $primary-colour;
+    color: $primary-colour;
+    &:hover { background-color: $primary-colour; }
+}
+
+.btn-secondary {
+    border-color: $secondary-colour;
+    color: $secondary-colour;
+    &:hover { background-color: $secondary-colour; }
+}
+
+.btn-terciary {
+    border-color: $terciary-colour;
+    color: $terciary-colour;
+    &:hover { background-color: $terciary-colour; }
+}

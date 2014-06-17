@@ -1,0 +1,26 @@
+header {
+    background-color: $gray-lightest;
+    &.navbar { border-width: 0 0; }
+
+    .navbar-brand { text-shadow: none; }
+
+    a { color: $primary-colour; }
+    a:hover { color: $gray-light; }
+}
+
+.navbar-header {
+    .navbar-toggle .icon-bar {
+        background-color: $primary-colour;
+    }
+}
+
+.navbar-nav {
+    li {
+        > a { color: $gray-light; }
+        > a:hover {
+            background-color: $white;
+            color: $primary-colour;
+        }
+    }
+
+}
