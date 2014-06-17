@@ -1,10 +1,13 @@
+/* globals module */
+'use strict';
+
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         sass: {
             dist: {
                 files: {
-                    'casterly/static/scss/styles.css' : 'casterly/static/scss/styles.scss'
+                    'casterly/static/css/styles.css' : 'casterly/static/scss/styles.scss'
                 }
             }
         },
@@ -15,7 +18,8 @@ module.exports = function(grunt) {
             }
         }
     });
+
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.registerTask('default',['sass', 'watch']);
-}
+};
