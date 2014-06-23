@@ -2,18 +2,13 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import FormMixin
 
-from .models import Transaction
-from .forms import CreateTransactionForm
+from .models import Transaction, Account
+from .forms import CreateTransactionForm, CreateAccountForm
 
 
-class TransactionListView(FormMixin, ListView):
-    model = Transaction
-    form_class = CreateTransactionForm
-    template_name = 'money/transaction_list.html'
-    success_url = reverse_lazy('transactions_list')
-
+class CreateListView(FormMixin, ListView):
     def get_context_data(self, **kwargs):
-        context = super(TransactionListView, self).get_context_data(**kwargs)
+        context = super(CreateListView, self).get_context_data(**kwargs)
         context.update({'form': self.get_form(self.get_form_class())})
         return context
 
@@ -27,4 +22,18 @@ class TransactionListView(FormMixin, ListView):
 
     def form_valid(self, form):
         form.save()
-        return super(TransactionListView, self).form_valid(form)
+        return super(CreateListView, self).form_valid(form)
+
+
+class TransactionListView(CreateListView):
+    model = Transaction
+    form_class = CreateTransactionForm
+    template_name = 'money/transaction_list.html'
+    success_url = reverse_lazy('transactions_list')
+
+
+class AccountListView(CreateListView):
+    model = Account
+    form_class = CreateAccountForm
+    template_name = 'money/account_list.html'
+    success_url = reverse_lazy('account_list')
