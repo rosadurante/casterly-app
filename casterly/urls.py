@@ -11,7 +11,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', views.IndexView.as_view(), name="home"),
-    url(r'^transactions/', include('money.urls')),
+    url(r'^', include('stats.urls')),
+    url(r'^', include('money.urls')),
 
     url(r'^accounts/login/$', views.LoginView.as_view(), name='account_login'),
     url(r'^accounts/signup/$', views.SignupView.as_view(), name='account_signup'),

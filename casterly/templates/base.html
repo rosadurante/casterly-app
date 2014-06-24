@@ -25,9 +25,10 @@
             <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
-                        <li><a href="#">Dashboard</a></li>
-                        <li><a href="#">Compare</a></li>
-                        <li><a href="#">Transactions</a></li>
+                        <li><a href="{% url 'dashboard_view' %}">Dashboard</a></li>
+                        <li><a href="{% url 'accounts_list' %}">Accounts</a></li>
+                        <li><a href="{% url 'compare_view' %}">Compare</a></li>
+                        <li><a href="{% url 'transactions_list' %}">Transactions</a></li>
                     {% endif %}
                     <li><a href="#">About us</a></li>
                     {% if user.is_anonymous %}

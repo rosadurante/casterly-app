@@ -63,6 +63,7 @@ INSTALLED_APPS = (
     'crispy_forms',
 
     'money',
+    'stats',
 )
 
 MIDDLEWARE_CLASSES = (
