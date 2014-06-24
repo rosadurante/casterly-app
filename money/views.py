@@ -5,7 +5,6 @@ from django.views.generic.edit import FormMixin
 from .models import Transaction, Account
 from .forms import CreateTransactionForm, CreateAccountForm
 
-
 class CreateListView(FormMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(CreateListView, self).get_context_data(**kwargs)
@@ -37,3 +36,4 @@ class AccountListView(CreateListView):
     form_class = CreateAccountForm
     template_name = 'money/account_list.html'
     success_url = reverse_lazy('account_list')
+
