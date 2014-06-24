@@ -24,10 +24,21 @@ require.config({
 });
 
 /* Application init */
-define(['require', 'app'], function (require, app) {
+define(['require'], function (require) {
     'use strict';
 
     require(['domReady!'], function () {
-        app.init();
+        var moduleName;
+
+        if (window.location.pathname.replace('/', '') === 'dashboard') {
+            moduleName = 'dashboard';
+        } else {
+            moduleName = 'app';
+        }
+
+        require([moduleName], function (CustomObject) {
+            var app = new CustomObject();
+            app.init();
+        });
     });
 });

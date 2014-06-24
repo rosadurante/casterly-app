@@ -1,11 +1,17 @@
 /* globals define */
 
-define('app', ['jquery', 'underscore', 'bootstrap'], function ($, _) {
+define('app', ['bootstrap'], function () {
     'use strict';
 
-    var application = {
-        init: function () { console.log('JS initialized!'); }
-    };
+    var _init = function () {
+            console.log(this.initMessage);
+        },
 
-    return application;
+        App = function () {
+            this.initMessage = 'App - JS initialized.';
+        };
+
+    App.prototype.init = _init;
+
+    return App;
 });
