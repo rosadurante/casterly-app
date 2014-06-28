@@ -7,7 +7,8 @@ require.config({
         'jquery': './libs/jquery/dist/jquery.min',
         'domReady': './libs/domReady/domReady',
         'underscore':'./libs/underscore/underscore',
-        'bootstrap': './libs/bootstrap/dist/js/bootstrap.min'
+        'bootstrap': './libs/bootstrap/dist/js/bootstrap.min',
+        'd3': './libs/d3/d3.min'
     },
 
     shim: {

@@ -3,15 +3,11 @@
 define('app', ['bootstrap'], function () {
     'use strict';
 
-    var _init = function () {
-            console.log(this.initMessage);
-        },
-
-        App = function () {
+    var App = function () {
             this.initMessage = 'App - JS initialized.';
         };
 
-    App.prototype.init = _init;
+    App.prototype.init = function () { console.log(this.initMessage); };
 
     return App;
 });
