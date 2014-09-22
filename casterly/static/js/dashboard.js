@@ -12,7 +12,7 @@ define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, 
         behaviour = {
             getOrCreateChart : function () {
                 if (!this.outcomePieChart) {
-                    this.outcomePieChart = new PieChart('#outcomePieChart', this.outcomeStats, 500, 650, 200);
+                    this.outcomePieChart = new PieChart('#outcomePieChart', this.outcomeStats, 500, 500, 200, 50, 0);
                     this.outcomePieChart.init();
                 } else {
                     this.outcomePieChart.updateData(this.outcomeStats);
@@ -20,7 +20,7 @@ define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, 
                 }
 
                 if (!this.incomePieChart) {
-                    this.incomePieChart = new PieChart('#incomePieChart', this.incomeStats, 500, 650, 200);
+                    this.incomePieChart = new PieChart('#incomePieChart', this.incomeStats, 500, 500, 200);
                     this.incomePieChart.init();
                 } else {
                     this.incomePieChart.updateData(this.incomeStats);
@@ -42,21 +42,24 @@ define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, 
                         return parseFloat(amount.toFixed(2));
                     };
 
-
                 this.categories = _.uniq(_.map(statList, function (item) { return item.category.name; }));
-                this.outcomeStats = _.map(this.categories, function (category) {
-                    return {
-                        'label': category,
-                        'value': getTotalAmount(statList, category, 'out')
-                    };
-                });
+                this.outcomeStats = _.sortBy(
+                    _.map(this.categories, function (category) {
+                        return {
+                            'label': category,
+                            'value': getTotalAmount(statList, category, 'out')
+                        };
+                    }),
+                    function (data) { return data.value; });
 
-                this.incomeStats = _.map(this.categories, function (category) {
-                    return {
-                        'label': category,
-                        'value': getTotalAmount(statList, category, 'in')
-                    };
-                });
+                this.incomeStats = _.sortBy(
+                    _.map(this.categories, function (category) {
+                        return {
+                            'label': category,
+                            'value': getTotalAmount(statList, category, 'in')
+                        };
+                    }),
+                    function (data) { return data.value; /* Ordering descending */ });
 
                 this.getOrCreateChart();
             },
