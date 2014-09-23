@@ -3,15 +3,15 @@
 define('pieChart', ['underscore', 'd3'], function (_, d3) {
     'use strict';
 
-    var PieChart = function (element, data, w, h, r, ir, textOffset) {
+    var PieChart = function (element, data, size, r, ir, textOffset) {
             this.element = element || 'body';
             this.data = data || [];
-            this.width = w || 450;
-            this.height = h || 350;
-            this.radio = r || 120;
+            this.width = size || 500;
+            this.height = size || 500;
+            this.radio = r || ( (size * 2 / 5) || 200 );
 
-            this.innerRadio = ir || 50;
-            this.textOffset = textOffset || 14;
+            this.innerRadio = ir || ( (size / 10 ) || 50 );
+            this.textOffset = textOffset || 0;
             this.colour = d3.scale.category20c();
         },
 
@@ -63,6 +63,13 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
                     .attr("class", "arc")
                     .attr("transform", "translate(" + (this.width/2) + "," + (this.height/2) + ")");
 
+                this.initAnimation = function (b) {
+                    var i = d3.interpolate({startAngle: -1 * Math.PI, endAngle: -1 * Math.PI}, b);
+                    return function (t) { return self.arc(i(t)); };
+                };
+
+                this.animatedWhenClick = function (arc, index) {};
+
                 this.paths = this.arcGroup.selectAll("path").data(this.donut(this.data));
                 this.paths.enter()
                     .append("svg:g")
@@ -71,7 +78,12 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
                         .attr("stroke", "white")
                         .attr("stroke-width", 0.5)
                         .attr("d", this.arc)
-                        .attr("fill", function(d, i) { console.log(d); return self.colour(i); });
+                        .attr("fill", function(d, i) { return self.colour(i); })
+                        .on("click", this.animatedWhenClick)
+                        .transition()
+                            .ease("out")
+                            .duration(500)
+                            .attrTween("d", this.initAnimation);
             },
 
             buildLabels: function () {
@@ -88,8 +100,8 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
                 this.rectLabels.enter()
                     .append("rect")
                         .attr("width", this.radio)
-                        .attr("height", 20)
-                        .attr("x", (10))
+                        .attr("height", this.radio / 10)
+                        .attr("x", 10)
                         .attr("y", function (d,i) { return ((-1 * self.radio) + (29 * i)); })
                         .attr("fill", function (d,i) { return self.colour(i); });
 

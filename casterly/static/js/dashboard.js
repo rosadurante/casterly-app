@@ -12,7 +12,7 @@ define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, 
         behaviour = {
             getOrCreateChart : function () {
                 if (!this.outcomePieChart) {
-                    this.outcomePieChart = new PieChart('#outcomePieChart', this.outcomeStats, 500, 500, 200, 50, 0);
+                    this.outcomePieChart = new PieChart('#outcomePieChart', this.outcomeStats, 500);
                     this.outcomePieChart.init();
                 } else {
                     this.outcomePieChart.updateData(this.outcomeStats);
@@ -20,7 +20,7 @@ define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, 
                 }
 
                 if (!this.incomePieChart) {
-                    this.incomePieChart = new PieChart('#incomePieChart', this.incomeStats, 500, 500, 200);
+                    this.incomePieChart = new PieChart('#incomePieChart', this.incomeStats, 500, 200);
                     this.incomePieChart.init();
                 } else {
                     this.incomePieChart.updateData(this.incomeStats);
