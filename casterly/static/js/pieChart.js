@@ -9,6 +9,8 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
             this.width = size || 500;
             this.height = size || 500;
             this.radio = r || ( (size * 2 / 5) || 200 );
+            this.labelSize = (this.width - this.radio) / 10 || 30;
+            this.timeAnimation = 500;
 
             this.innerRadio = ir || ( (size / 10 ) || 50 );
             this.textOffset = textOffset || 0;
@@ -82,7 +84,7 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
                         .on("click", this.animatedWhenClick)
                         .transition()
                             .ease("out")
-                            .duration(500)
+                            .duration(this.timeAnimation)
                             .attrTween("d", this.initAnimation);
             },
 
@@ -102,7 +104,7 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
                         .attr("width", this.radio)
                         .attr("height", this.radio / 10)
                         .attr("x", 10)
-                        .attr("y", function (d,i) { return ((-1 * self.radio) + (29 * i)); })
+                        .attr("y", function (d,i) { return ((-1 * self.radio) + (self.labelSize * i)); })
                         .attr("fill", function (d,i) { return self.colour(i); });
 
                 this.valueLabels = this.labelGroup.selectAll("text.value").data(this.donut(this.data));
@@ -110,7 +112,7 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
                     .append("svg:text")
                         .attr("class", "value")
                         // .attr("transform", labelTransform)
-                        .attr("dy", function (d, i) { return (-1 * self.radio) + (i * 29) + 15; })
+                        .attr("dy", function (d, i) { return (-1 * self.radio) + (i * self.labelSize) + (self.labelSize/2); })
                         .attr("dx", this.radio / 2)
                         .attr("fill", "white")
                         .attr("text-anchor", function (d) { return "middle";
