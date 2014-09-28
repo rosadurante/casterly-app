@@ -26,12 +26,10 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
                         .rangeRound([this.height, 0])
                 };
 
-                // Months
                 this.axis.xAxis = d3.svg.axis()
                     .scale(this.axis.x)
                     .orient("bottom");
 
-                // Categories
                 this.axis.yAxis = d3.svg.axis()
                     .scale(this.axis.y)
                     .orient("left");
@@ -64,7 +62,7 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
                   .attr("class", "y axis")
                   .call(this.axis.yAxis);
 
-                this.bars = this.chart.selectAll(".month")
+                this.bars = this.chart.selectAll(".bars")
                     .data(this.data)
                     .enter().append("g")
                     .attr("class", "g")
