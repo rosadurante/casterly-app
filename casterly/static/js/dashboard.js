@@ -18,14 +18,6 @@ define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, 
                     this.outcomePieChart.updateData(this.outcomeStats);
                     this.outcomePieChart.refresh();
                 }
-
-                if (!this.incomePieChart) {
-                    this.incomePieChart = new PieChart('#incomePieChart', this.incomeStats, 500, 200);
-                    this.incomePieChart.init();
-                } else {
-                    this.incomePieChart.updateData(this.incomeStats);
-                    this.incomePieChart.refresh();
-                }
             },
 
             saveStats: function (statList) {
@@ -43,6 +35,10 @@ define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, 
                     };
 
                 this.categories = _.uniq(_.map(statList, function (item) { return item.category.name; }));
+                this.months = _.uniq(_.map(statList, function (item) { return item.when.substr(0,7); }));
+                this.statsIn = [];
+                this.statsOut = [];
+
                 this.outcomeStats = _.sortBy(
                     _.map(this.categories, function (category) {
                         return {
@@ -52,14 +48,22 @@ define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, 
                     }),
                     function (data) { return data.value; });
 
-                this.incomeStats = _.sortBy(
-                    _.map(this.categories, function (category) {
-                        return {
-                            'label': category,
-                            'value': getTotalAmount(statList, category, 'in')
-                        };
-                    }),
-                    function (data) { return data.value; /* Ordering descending */ });
+
+                _.each(this.months, function (month) {
+                    var amountMonthsOut = {}, amountMonthsIn = {};
+
+                    _.each(self.categories, function (category) {
+                        amountMonthsOut[category] = _.reduce(statList, function (memo, item) {
+                            return memo + ((item.when.substr(0,7) === month && item.category.name === category && item.kind === 'out') ? parseFloat(item.amount) : 0);
+                        }, 0);
+                        amountMonthsIn[category] = _.reduce(statList, function (memo, item) {
+                            return memo + ((item.when.substr(0,7) === month && item.category.name === category && item.kind === 'in') ? parseFloat(item.amount) : 0);
+                        }, 0);
+                    });
+
+                    self.statsIn.push({key: month, value: amountMonthsIn});
+                    self.statsOut.push({key: month, value: amountMonthsOut});
+                });
 
                 this.getOrCreateChart();
             },
