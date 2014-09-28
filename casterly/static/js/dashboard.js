@@ -1,6 +1,6 @@
 /* globals define */
 
-define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, $, _, PieChart) {
+define('dashboard', ['app', 'jquery', 'underscore', 'pieChart', 'stackBarChart'], function (App, $, _, PieChart, StackBarChart) {
     'use strict';
 
     
@@ -17,6 +17,14 @@ define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, 
                 } else {
                     this.outcomePieChart.updateData(this.outcomeStats);
                     this.outcomePieChart.refresh();
+                }
+
+                if (!this.stackBarChart) {
+                    this.stackBarChart = new StackBarChart('#stackBarChart', this.statsOut, 500, 750, [50,50,150,50]);
+                    this.stackBarChart.init();
+                } else {
+                    this.stackBarChart.updateData(this.outcomeStats);
+                    this.stackBarChart.refresh();
                 }
             },
 
