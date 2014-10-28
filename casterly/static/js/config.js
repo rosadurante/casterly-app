@@ -45,7 +45,6 @@ define(['require'], function (require) {
 
         require([moduleName], function (CustomObject) {
             var app = new CustomObject();
-            app.init();
         });
     });
 });

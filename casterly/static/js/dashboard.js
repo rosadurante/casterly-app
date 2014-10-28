@@ -1,71 +1,50 @@
 /* globals define */
 
-define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, $, _, PieChart) {
+define('dashboard', ['jquery', 'underscore', 'pieChart', 'entriesList'], function ($, _, PieChart, EntriesList) {
     'use strict';
 
-    
     var Dashboard = function () {
-            this.initMessage = 'Dashboard - JS Initialised';
-            this.url = '/api/transactions';
-        },
+        var self = this;
 
-        behaviour = {
-            getOrCreateChart : function () {
-                if (!this.outcomePieChart) {
-                    this.outcomePieChart = new PieChart({
-                        element: '#outcomePieChart',
-                        data: this.outcomeStats,
-                        size: 200,
-                        innerRadio: 1
-                    });
-                } else {
-                    this.outcomePieChart.updateData(this.outcomeStats);
-                }
-            },
+        this.initMessage = 'Dashboard - JS Initialised';
+        this.url = '/api/transactions';
 
-            saveStats: function (statList) {
-                var self = this,
-                    getTotalAmount = function (list, category, kind) {
-                        var amount = _.reduce(list, function (memo, item) {
-                            if (item.category.name === category) {
-                                return memo + (item.kind === kind ? parseFloat(item.amount) : 0);
-                            } else {
-                                return memo;
-                            }
-                        }, 0);
+        this._getOutComeData = function (categories) {
+            var self = this, categories, getTotalAmount;
 
-                        return parseFloat(amount.toFixed(2));
+            categories = _.uniq(_.map(this._data, function (item) { return item.category.name; }));
+            
+            getTotalAmount = function (data, category, kind) {
+                var amount = _.reduce(data, function (memo, item) {
+                    return (item.category.name === category && item.kind === kind) ? memo + parseFloat(item.amount) : memo;
+                }, 0);
+                return parseFloat(amount.toFixed(2));
+            };
+
+            return (_.sortBy(
+                _.map(categories, function (cat) {
+                    return {
+                        'label': cat,
+                        'value': getTotalAmount(self._data, cat, 'out')
                     };
-
-                this.categories = _.uniq(_.map(statList, function (item) { return item.category.name; }));
-
-                this.outcomeStats = _.sortBy(
-                    _.map(this.categories, function (category) {
-                        return {
-                            'label': category,
-                            'value': getTotalAmount(statList, category, 'out')
-                        };
-                    }),
-                    function (data) { return data.value; });
-
-                this.getOrCreateChart();
-            },
-
-            getAllStats: function () {
-                var self = this;
-                $.getJSON(this.url, function (response) {
-                    self.saveStats(response);
-                });
-            },
-
-            init: function () {
-                App.prototype.init.call(this);
-                this.getAllStats();
-            }
+                }),
+                function (data) { return data.value; }));
         };
 
-    Dashboard.prototype = new App();
-    _.extend(Dashboard.prototype, behaviour);
+        this._buildChart = function () {
+            this.outcomePieChart = new PieChart({
+                element: '#outcomePieChart',
+                data: this._getOutComeData(),
+                size: document.getElementById('outcomePieChart').clientWidth,
+                innerRadio: 1
+            }); 
+        };
+
+        $.getJSON(this.url, function (response) {
+            self._data = response;
+            self._buildChart();
+        });     
+    };
 
     return Dashboard;
 });
