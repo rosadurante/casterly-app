@@ -31,11 +31,17 @@ define(['require'], function (require) {
     require(['domReady!'], function () {
         var moduleName;
 
-        if (window.location.pathname.replace('/', '') === 'dashboard') {
-            moduleName = 'dashboard';
-        } else {
-            moduleName = 'app';
-        }
+        switch (window.location.pathname.replace('/', '')) {
+            case 'dashboard':
+                moduleName = 'dashboard';
+                break;
+            case 'compare':
+                moduleName = 'compare';
+                break;
+            default:
+                moduleName = 'app';
+                break;
+        };
 
         require([moduleName], function (CustomObject) {
             var app = new CustomObject();
