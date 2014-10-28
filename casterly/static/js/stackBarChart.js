@@ -4,13 +4,21 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
     'use strict';
 
     var StackBarChart = function (options) {
-        // element, data, width, height, offset) {
         this.element = options.element || 'body';
         this.data = options.data || [];
-        this.width = options.width || 500;
-        this.height = options.height || 750;
-        this.offset = options.offset || [50,50,250,50];
+        this.size = options.size;
+        this.offset = options.offset;
+
         this.colour = d3.scale.category20c();
+
+        /**
+         *
+         */
+        this._calculateSizeAttr = function (size, offset) {
+            this.offset = offset || [size/12, size/12, size/6, size/12];
+            this.width = size - this.offset[0] - this.offset[2];
+            this.height = size - this.offset[1] - this.offset[3];
+        };
 
         // PRIVATE FUNCTIONS
 
@@ -18,11 +26,23 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
          *
          */
         this._initChart = function () {
+            var self = this;
+
+            this._calculateSizeAttr(this.size, this.offset);
+
             this.chart = d3.select(this.element).append('svg')
                 .attr("width", this.width + this.offset[0] + this.offset[2])
                 .attr("height", this.height + this.offset[1] + this.offset[3])
                 .append('g')
+                .attr("class", "main")
                 .attr("transform", "translate(" + this.offset[0] + "," + this.offset[1] + ")");
+
+            window.addEventListener('resize', function (event) {
+                var element = document.querySelectorAll(self.element).item(0);
+                if (element.clientWidth < 1024 && element.clientWidth > 300) {
+                    self._resizeChart(element.clientWidth);
+                }
+            });
         };
 
         /**
@@ -95,44 +115,73 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
                 })
                 .enter().append("rect")
                 .attr("width", this.axis.x.rangeBand())
-                .attr("y", 0)
-                .attr("height", this.height)
+                // .attr("y", 0)
+                // .attr("height", this.height);
+                .attr("y", function (d) { return self.axis.y(d.y1); })
+                .attr("height", function (d) { return self.axis.y(d.y0) - self.axis.y(d.y1); })
                 .style("fill", function (d) {
                     return self.colour(d.name);
-                })
-                .transition()
-                    .duration(750)
-                    .attr("y", function (d) { return self.axis.y(d.y1); })
-                    .attr("height", function (d) { return self.axis.y(d.y0) - self.axis.y(d.y1); });
+                });
+                // Animation
+                // .transition()
+                //     .duration(750)
+                //     .attr("y", function (d) { return self.axis.y(d.y1); })
+                //     .attr("height", function (d) { return self.axis.y(d.y0) - self.axis.y(d.y1); });
         };
 
         /**
          *
          */
         this._buildLegend = function () {
+            var self = this;
 
             this.legend = this.chart.selectAll(".legend")
                 .data(this.colour.domain().slice().reverse())
                 .enter().append("g")
                 .attr("class", "legend")
                 .attr("transform", function (d, i) {
-                return "translate(0," + i * 20 + ")";
+                return "translate(0," + (i * (self.offset[2]/16)) + ")";
             });
 
             this.legend.append("rect")
-                .attr("x", this.width + 130)
-                .attr("width", 18)
-                .attr("height", 18)
+                .attr("x", this.width)
+                .attr("y", function (d,i) { return (self.offset[2]/10) * i; })
+                .attr("width", this.offset[2])
+                .attr("height", this.offset[2]/10)
                 .style("fill", this.colour);
 
             this.legend.append("text")
-                .attr("x", this.width + 115)
-                .attr("y", 9)
-                .attr("dy", ".35em")
-                .style("text-anchor", "end")
+                .attr("x", this.width + this.offset[2]/2)
+                .attr("y", this.offset[2]/15)
+                .attr("dy", function (d, i) { return (self.offset[2]/10) * i; })
+                .attr("fill", "white")
+                .style("text-anchor", "middle")
                 .text(function (d) {
                     return d;
                 });
+        };
+
+        this._resizeChart = function (size) {
+            this.size = size;
+            this._calculateSizeAttr(size);
+
+            this.initAnimate = function () {};
+
+            this.axis.x = d3.scale.ordinal().rangeRoundBands([0, this.width], 0.1);
+            this.axis.y = d3.scale.linear().rangeRound([this.height, 0]);
+            this.axis.xAxis.scale(this.axis.x);
+            this.axis.yAxis.scale(this.axis.y);
+
+            d3.select('svg').attr("width", this.width + this.offset[0] + this.offset[2]);
+            d3.select('svg').attr("height", this.height + this.offset[1] + this.offset[3]);
+            this.chart.select('g.main').attr("transform", "translate(" + this.offset[0] + "," + this.offset[1] + ")");
+            this.chart.select('g.x.axis')
+                .attr("transform", "translate(0," + this.height + ")")
+                .call(this.axis.xAxis);
+            this.chart.select('g.y.axis')
+                .call(this.axis.yAxis);
+
+            this.updateData(this.data);
         };
 
         this.drawChart();

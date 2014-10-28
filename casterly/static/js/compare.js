@@ -34,10 +34,7 @@ define('compare', ['jquery', 'underscore', 'stackBarChart', 'entriesList'], func
             this.stackBarChart = new StackBarChart({
                 element: '#stackBarChart',
                 data: this._getCompareData(),
-                size: document.getElementById('stackBarChart').clientWidth,
-                width: 500,
-                height: 750,
-                offset: [50,50,150,50]
+                size:  document.getElementById('stackBarChart').clientWidth
             }); 
         };
 
