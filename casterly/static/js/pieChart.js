@@ -65,7 +65,7 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
                 if (element.clientWidth < 1024 && element.clientWidth > 300) {
                     self.resizeChart(element.clientWidth);
                 }
-            })
+            });
         };
 
         /**
