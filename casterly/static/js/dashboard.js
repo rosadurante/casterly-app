@@ -12,11 +12,14 @@ define('dashboard', ['app', 'jquery', 'underscore', 'pieChart'], function (App, 
         behaviour = {
             getOrCreateChart : function () {
                 if (!this.outcomePieChart) {
-                    this.outcomePieChart = new PieChart('#outcomePieChart', this.outcomeStats, 500);
-                    this.outcomePieChart.init();
+                    this.outcomePieChart = new PieChart({
+                        element: '#outcomePieChart',
+                        data: this.outcomeStats,
+                        size: 200,
+                        innerRadio: 1
+                    });
                 } else {
                     this.outcomePieChart.updateData(this.outcomeStats);
-                    this.outcomePieChart.refresh();
                 }
             },
 
