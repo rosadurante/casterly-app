@@ -35,7 +35,7 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
 
             this.chart = d3.select(this.element).append('svg')
                 .attr("width", this.width)
-                .attr("height", this.height + this.legendSize);
+                .attr("height", this.height);
 
             this.donut = d3.layout.pie().value(function (d) { return d.value; })
                 .startAngle(-1 * Math.PI)
@@ -149,13 +149,16 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
     /**
      *
      */
-    PieChart.prototype.updateData = function (data) {
+    PieChart.prototype.updateData = function (data, animation) {
+        var self = this;
         this.data = data;
 
-        this.initAnimation = function (b) {
-        var i = d3.interpolate({startAngle: -1 * Math.PI, endAngle: -1 * Math.PI}, b);
-            return function (t) { return self.arc(i(t)); };
-        };
+        if (animation) {
+            this.initAnimation = function (b) {
+                var i = d3.interpolate({startAngle: -1 * Math.PI, endAngle: -1 * Math.PI}, b);
+                return function (t) { return self.arc(i(t)); };
+            };
+        }
 
         this.paths.remove();
         this.rectLabels.remove();
@@ -185,7 +188,7 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
         this.arcGroup.attr("transform", "translate(" + (this.width/2) + "," + (this.height/2) + ")");
         this.labelGroup.attr("transform", "translate(" + (this.width/2) + "," + (this.height/2 + this.legendSize) + ")");
         
-        this.updateData(this.data);
+        this.updateData(this.data, false);
      };
 
     return PieChart;
