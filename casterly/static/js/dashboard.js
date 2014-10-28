@@ -40,9 +40,14 @@ define('dashboard', ['jquery', 'underscore', 'pieChart', 'entriesList'], functio
             }); 
         };
 
+        this._displayEntries = function () {
+            this._list = new EntriesList('outcomeTable', _.filter(this._data, function (item) { return item.kind === 'out'; }));
+        };
+
         $.getJSON(this.url, function (response) {
             self._data = response;
             self._buildChart();
+            self._displayEntries();
         });     
     };
 

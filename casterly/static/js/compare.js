@@ -42,9 +42,14 @@ define('compare', ['jquery', 'underscore', 'stackBarChart', 'entriesList'], func
             }); 
         };
 
+        this._displayEntries = function () {
+            this._list = new EntriesList('compareTable', _.filter(this._data, function (item) { return item.kind === 'out'; }));
+        };
+
         $.getJSON(this.url, function (response) {
             self._data = response;
             self._buildChart();
+            self._displayEntries();
         });   
     };
 
