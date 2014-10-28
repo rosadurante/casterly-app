@@ -3,7 +3,6 @@
 define('compare', ['jquery', 'underscore', 'stackBarChart', 'entriesList'], function ($, _, StackBarChart, EntriesList) {
     'use strict';
 
-    
     var Compare = function () {
         var self = this;
 
@@ -53,5 +52,5 @@ define('compare', ['jquery', 'underscore', 'stackBarChart', 'entriesList'], func
         });   
     };
 
-    return Compare;
+    new Compare();
 });

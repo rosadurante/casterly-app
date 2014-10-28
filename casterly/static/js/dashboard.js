@@ -51,5 +51,5 @@ define('dashboard', ['jquery', 'underscore', 'pieChart', 'entriesList'], functio
         });     
     };
 
-    return Dashboard;
+    new Dashboard();
 });
