@@ -1,6 +1,6 @@
 /* globals define */
 
-define('dashboard', ['jquery', 'underscore', 'pieChart', 'entriesList'], function ($, _, PieChart, EntriesList) {
+define('dashboard', ['jquery', 'underscore', 'pieChart', 'entriesList', 'bootstrap'], function ($, _, PieChart, EntriesList) {
     'use strict';
 
     var Dashboard = function () {
@@ -10,9 +10,9 @@ define('dashboard', ['jquery', 'underscore', 'pieChart', 'entriesList'], functio
         this.url = '/api/transactions';
 
         this._getOutComeData = function (categories) {
-            var self = this, categories, getTotalAmount;
+            var self = this, categoryList, getTotalAmount;
 
-            categories = _.uniq(_.map(this._data, function (item) { return item.category.name; }));
+            categoryList = _.uniq(_.map(this._data, function (item) { return item.category.name; }));
             
             getTotalAmount = function (data, category, kind) {
                 var amount = _.reduce(data, function (memo, item) {
@@ -22,7 +22,7 @@ define('dashboard', ['jquery', 'underscore', 'pieChart', 'entriesList'], functio
             };
 
             return (_.sortBy(
-                _.map(categories, function (cat) {
+                _.map(categoryList, function (cat) {
                     return {
                         'label': cat,
                         'value': getTotalAmount(self._data, cat, 'out')

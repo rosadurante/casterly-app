@@ -1,6 +1,6 @@
 /* globals define */
 
-define('compare', ['jquery', 'underscore', 'stackBarChart', 'entriesList'], function ($, _, StackBarChart, EntriesList) {
+define('compare', ['jquery', 'underscore', 'stackBarChart', 'entriesList', 'bootstrap'], function ($, _, StackBarChart, EntriesList) {
     'use strict';
 
     var Compare = function () {
