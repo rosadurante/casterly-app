@@ -29,6 +29,7 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
             var self = this;
 
             this._calculateSizeAttr(this.size, this.offset);
+            this.initAnimate = true;
 
             this.chart = d3.select(this.element).append('svg')
                 .attr("width", this.width + this.offset[0] + this.offset[2])
@@ -115,18 +116,23 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
                 })
                 .enter().append("rect")
                 .attr("width", this.axis.x.rangeBand())
-                // .attr("y", 0)
-                // .attr("height", this.height);
-                .attr("y", function (d) { return self.axis.y(d.y1); })
-                .attr("height", function (d) { return self.axis.y(d.y0) - self.axis.y(d.y1); })
                 .style("fill", function (d) {
                     return self.colour(d.name);
                 });
-                // Animation
-                // .transition()
-                //     .duration(750)
-                //     .attr("y", function (d) { return self.axis.y(d.y1); })
-                //     .attr("height", function (d) { return self.axis.y(d.y0) - self.axis.y(d.y1); });
+
+            if (this.initAnimate) {
+                this.bars.selectAll("rect")
+                    .attr("y", 0)
+                    .attr("height", this.height)
+                    .transition()
+                        .duration(750)
+                        .attr("y", function (d) { return self.axis.y(d.y1); })
+                        .attr("height", function (d) { return self.axis.y(d.y0) - self.axis.y(d.y1); });
+            } else {
+                this.bars.selectAll("rect")
+                    .attr("y", function (d) { return self.axis.y(d.y1); })
+                    .attr("height", function (d) { return self.axis.y(d.y0) - self.axis.y(d.y1); });
+            }
         };
 
         /**
@@ -165,8 +171,6 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
             this.size = size;
             this._calculateSizeAttr(size);
 
-            this.initAnimate = function () {};
-
             this.axis.x = d3.scale.ordinal().rangeRoundBands([0, this.width], 0.1);
             this.axis.y = d3.scale.linear().rangeRound([this.height, 0]);
             this.axis.xAxis.scale(this.axis.x);
@@ -181,7 +185,7 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
             this.chart.select('g.y.axis')
                 .call(this.axis.yAxis);
 
-            this.updateData(this.data);
+            this.updateData(this.data, false);
         };
 
         this.drawChart();
@@ -206,11 +210,13 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
     /**
      *
      */
-    StackBarChart.prototype.updateData = function (data) {
+    StackBarChart.prototype.updateData = function (data, animate) {
         this.data = data;
 
         this.bars.remove();
         this.legend.remove();
+
+        this.initAnimate = animate;
 
         this.drawChart();
     };
