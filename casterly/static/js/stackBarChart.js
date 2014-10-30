@@ -115,6 +115,7 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
                     return d.types;
                 })
                 .enter().append("rect")
+                .attr("class", function (d) { return d.name; })
                 .attr("width", this.axis.x.rangeBand())
                 .style("fill", function (d) {
                     return self.colour(d.name);
@@ -133,6 +134,9 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
                     .attr("y", function (d) { return self.axis.y(d.y1); })
                     .attr("height", function (d) { return self.axis.y(d.y0) - self.axis.y(d.y1); });
             }
+
+            this.bars.selectAll('rect').on('mouseover', this.onMouseOver.bind(this));
+            this.bars.selectAll('rect').on('mouseout', this.onMouseOut.bind(this));
         };
 
         /**
@@ -144,10 +148,10 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
             this.legend = this.chart.selectAll(".legend")
                 .data(this.colour.domain().slice().reverse())
                 .enter().append("g")
-                .attr("class", "legend")
+                .attr("class", function (d) { return "legend " + d; })
                 .attr("transform", function (d, i) {
-                return "translate(0," + (i * (self.offset[2]/16)) + ")";
-            });
+                    return "translate(0," + (i * (self.offset[2]/16)) + ")";
+                });
 
             this.legend.append("rect")
                 .attr("x", this.width)
@@ -165,6 +169,9 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
                 .text(function (d) {
                     return d;
                 });
+
+            this.chart.selectAll('.legend').on('mouseover', this.onMouseOver.bind(this));
+            this.chart.selectAll('.legend').on('mouseout', this.onMouseOut.bind(this));
         };
 
         this._resizeChart = function (size) {
@@ -219,6 +226,43 @@ define('stackBarChart', ['underscore', 'd3'], function (_, d3) {
         this.initAnimate = animate;
 
         this.drawChart();
+    };
+
+    /**
+     *
+     */
+    StackBarChart.prototype.onMouseOver = function (d, index) {
+        this.bars.selectAll('rect').transition()
+            .duration(500)
+            .attr('opacity', 0.25);
+
+        this.chart.selectAll('.legend').transition()
+            .duration(500)
+            .attr('opacity', 0.25);
+
+        if (typeof d == 'string') { d = { name: d}; }
+        d.name = d.name.replace(/ /g, '.');
+
+        this.bars.selectAll('rect.' + d.name).transition()
+            .duration(500)
+            .attr('opacity', 1);
+
+        this.chart.select('.legend.' + d.name).transition()
+            .duration(500)
+            .attr('opacity', 1);
+    };
+
+    /**
+     *
+     */
+    StackBarChart.prototype.onMouseOut = function (d, index) {
+        this.bars.selectAll('rect').transition()
+            .duration(500)
+            .attr('opacity', 1);
+
+        this.chart.selectAll('.legend').transition()
+            .duration(500)
+            .attr('opacity', 1);
     };
 
 
