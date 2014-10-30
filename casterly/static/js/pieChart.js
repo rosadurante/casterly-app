@@ -195,6 +195,10 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
             .innerRadius(this.innerRadio)
             .outerRadius(this.radio);
 
+        this.arcOver = d3.svg.arc()
+            .innerRadius(this.innerRadio + (this.radio*0.1))
+            .outerRadius(this.radio + (this.radio*0.1));
+
         this.arcGroup.attr("transform", "translate(" + (this.width/2) + "," + (this.height/2) + ")");
         this.labelGroup.attr("transform", "translate(" + (this.width/2) + "," + (this.height/2 + this.legendSize) + ")");
         
