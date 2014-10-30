@@ -13,9 +13,7 @@ This project has some dependencies that need to be in your system:
  * Node 0.10
  * Node Package Manager 1.4
 
-To get started on this project you just need to follow few steps:
-
-### virtualenvwrapper
+To get started on this project you just need to follow few steps.
 
 If you don't have `virtualenvwrapper` installed those are the steps:
 
@@ -29,8 +27,6 @@ Now you've got virtualenvwrapper activated. Let's create an environment:
 ```sh
 $> mkvirtualenv casterly-env
 ```
-
-### instalation
 
 Let's clone this repo into your local machine:
 
@@ -97,7 +93,6 @@ The CSV file should contains few different elements on each statement (row):
 An example of that file could be:
 
 ```sh
-Rosa C/A,food and drinks,gale's bakery,10/01/2014,£1.50,out
 Rosa C/A,transport,monthly travelcard,10/01/2014,£116.80,out
 Rosa C/A,food and drinks,loaf,10/01/2014,£5.90,out
 Rosa C/A,food and drinks,artisan,13/01/2014,£9.80,out
