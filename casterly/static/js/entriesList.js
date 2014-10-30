@@ -21,8 +21,21 @@ define('entriesList', ['jquery', 'underscore'], function ($, _) {
         '</table>';
 
     var EntryList = function (elementId, entries) {
+        this.elementId = elementId;
         var t = _.template(template, {entries: entries});
         document.getElementById(elementId).innerHTML = t;
+    };
+
+    EntryList.prototype.updateEntries = function (entries, categories) {
+        var data = entries;
+
+        if (categories.length) {
+            data = _.filter(entries, function (entry) {
+                return _.contains(categories, entry.category.name);
+            });
+        }
+
+        document.getElementById(this.elementId).innerHTML = _.template(template, {entries: data});
     };
 
     return EntryList;

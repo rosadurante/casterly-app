@@ -295,5 +295,14 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
         }
     };
 
+    /**
+     *
+     */
+    PieChart.prototype.getSelectedCategories = function () {
+        return _.map(this.arcGroup.selectAll('path.clicked')[0], function (path) {
+            return d3.select(path).data()[0].data.label;
+        });
+    };
+
     return PieChart;
 });

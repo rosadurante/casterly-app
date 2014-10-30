@@ -14,9 +14,9 @@ define('dashboard', ['jquery', 'underscore', 'pieChart', 'entriesList', 'bootstr
 
             categoryList = _.uniq(_.map(this._data, function (item) { return item.category.name; }));
             
-            getTotalAmount = function (data, category, kind) {
+            getTotalAmount = function (data, category) {
                 var amount = _.reduce(data, function (memo, item) {
-                    return (item.category.name === category && item.kind === kind) ? memo + parseFloat(item.amount) : memo;
+                    return (item.category.name === category) ? memo + parseFloat(item.amount) : memo;
                 }, 0);
                 return parseFloat(amount.toFixed(2));
             };
@@ -25,7 +25,7 @@ define('dashboard', ['jquery', 'underscore', 'pieChart', 'entriesList', 'bootstr
                 _.map(categoryList, function (cat) {
                     return {
                         'label': cat,
-                        'value': getTotalAmount(self._data, cat, 'out')
+                        'value': getTotalAmount(self._data, cat)
                     };
                 }),
                 function (data) { return data.value; }));
@@ -37,15 +37,20 @@ define('dashboard', ['jquery', 'underscore', 'pieChart', 'entriesList', 'bootstr
                 data: this._getOutComeData(),
                 size: document.getElementById('outcomePieChart').clientWidth,
                 innerRadio: 1
-            }); 
+            });
         };
 
         this._displayEntries = function () {
-            this._list = new EntriesList('outcomeTable', _.filter(this._data, function (item) { return item.kind === 'out'; }));
+            var self = this;
+            this._list = new EntriesList('outcomeTable', this._data);
+
+            this.outcomePieChart.chart.on('click', function () {
+                self._list.updateEntries(self._data, self.outcomePieChart.getSelectedCategories());
+            });
         };
 
         $.getJSON(this.url, function (response) {
-            self._data = response;
+            self._data = _.filter(response, function (item) { return item.kind === 'out'; });
             self._buildChart();
             self._displayEntries();
         });     
