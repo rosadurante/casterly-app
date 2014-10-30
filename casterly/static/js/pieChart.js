@@ -91,9 +91,9 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
                     .attr("stroke-width", 0.5)
                     .attr("d", this.arc)
                     .attr("fill", function(d, i) { return self.colour(i); })
-                    .on("click", this.animatedWhenClick)
                     .on('mouseover', this.onMouseOver.bind(this))
                     .on('mouseout', this.onMouseOut.bind(this))
+                    .on('click', this.onClick.bind(this))
                     .transition()
                         .ease("out")
                         .duration(this.timeAnimation)
@@ -117,7 +117,8 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
                     .attr("y", function (d,i) { return ((-1 * self.radio) + (self.labelSize * i)) - self.radio; })
                     .attr("fill", function (d,i) { return self.colour(i); })
                     .on('mouseover', this.onMouseOver.bind(this))
-                    .on('mouseout', this.onMouseOut.bind(this));
+                    .on('mouseout', this.onMouseOut.bind(this))
+                    .on('click', this.onClick.bind(this));
 
             this.valueLabels = this.labelGroup.selectAll("text.value").data(this.donut(this.data));
             this.valueLabels.enter()
@@ -133,7 +134,8 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
                         return percentage.toFixed(1) + "%  " + d.data.label;
                     })
                     .on('mouseover', this.onMouseOver.bind(this))
-                    .on('mouseout', this.onMouseOut.bind(this));
+                    .on('mouseout', this.onMouseOut.bind(this))
+                    .on('click', this.onClick.bind(this));
         };
 
         this.drawChart();
@@ -229,20 +231,68 @@ define('pieChart', ['underscore', 'd3'], function (_, d3) {
             .transition()
             .duration(500)
             .attr('opacity', 1);
+
+        if (this.clickMode) {
+            this.arcGroup.selectAll('path.clicked').transition()
+                .duration(500)
+                .attr('opacity', 1)
+                .attr("d", this.arcOver);
+
+            this.labelGroup.selectAll('rect.clicked').transition()
+                .duration(500)
+                .attr('opacity', 1); 
+        }
     };
 
     /**
      *
      */
     PieChart.prototype.onMouseOut = function (d, index) {
-        this.arcGroup.selectAll('path').transition()
-            .duration(500)
-            .attr('d', this.arc)
-            .attr('opacity', 1);
+        if (!this.clickMode) {
 
-        this.labelGroup.selectAll('rect').transition()
-            .duration(500)
-            .attr('opacity', 1);
+            this.arcGroup.selectAll('path').transition()
+                .duration(500)
+                .attr('d', this.arc)
+                .attr('opacity', 1);
+
+            this.labelGroup.selectAll('rect').transition()
+                .duration(500)
+                .attr('opacity', 1);
+
+        } else {
+
+            if (!d3.select(this.arcGroup.selectAll('path')[0][index]).attr('class')) {
+                d3.select(this.arcGroup.selectAll('path')[0][index]).transition()
+                    .duration(500)
+                    .attr('d', this.arc)
+                    .attr('opacity', 0.25);
+
+                d3.select(this.labelGroup.selectAll('rect')[0][index]).transition()
+                    .duration(500)
+                    .attr('d', this.arc)
+                    .attr('opacity', 0.25);
+            }
+        }
+    };
+
+    /**
+     *
+     */
+    PieChart.prototype.onClick = function (d, index) {
+        if (d3.select(this.arcGroup.selectAll('path')[0][index]).attr('class')) {
+            
+            d3.select(this.arcGroup.selectAll('path')[0][index]).attr('class', '');
+            d3.select(this.labelGroup.selectAll('rect')[0][index]).attr('class', '');
+
+            if (!this.arcGroup.selectAll('path.clicked')[0].length) {
+                this.clickMode = false;
+            }
+
+        } else {
+            this.clickMode = true;
+            d3.select(this.arcGroup.selectAll('path')[0][index]).attr('class', 'clicked');
+            d3.select(this.labelGroup.selectAll('rect')[0][index]).attr('class', 'clicked');
+        }
     };
 
     return PieChart;
