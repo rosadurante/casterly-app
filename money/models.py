@@ -1,4 +1,6 @@
 # encoding: utf-8
+from __future__ import unicode_literals
+
 from django.db import models
 
 from .managers import TransactionManager
@@ -29,7 +31,7 @@ class Category(models.Model):
 
 class Transaction(models.Model):
     account = models.ForeignKey(Account, related_name='transactions')
-    category = models.ForeignKey(Category, related_name='transactions')
+    category = models.ForeignKey(Category, related_name='category')
 
     description = models.CharField(max_length=300)
     when = models.DateField()
@@ -49,7 +51,7 @@ class Transaction(models.Model):
             description = '%s...' % description[:20].strip()
 
         return u"%(when)s - %(description)s - %(sign)s£%(amount).2f" % {
-            'when': self.when.strftime("%Y/%m/%d"),
+            'when': self.when.strftime('%Y/%m/%d'),
             'description': description,
             'sign': operation_sign,
             'amount': self.amount

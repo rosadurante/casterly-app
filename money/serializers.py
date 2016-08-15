@@ -4,14 +4,14 @@ from .models import Transaction, Account, Category
 
 
 class CategorySerializer(ModelSerializer):
-    
+
     class Meta:
         model = Category
         fields = ('name', )
 
 
 class AccountSerializer(ModelSerializer):
-    
+
     class Meta:
         model = Account
         fields = ('name', )
