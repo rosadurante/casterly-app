@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block bodyclass %}view--index{% endblock %}
+
+{% block content %}
+
+{% if user.is_anonymous %}
+
+    <section class="section">
+        <p>Index - anonymous</p>
+    </section>
+
+{% else %}
+
+    <section class="section">
+        <p>Index - non anonymous</p>
+        {% if accounts %}
+            <p>Display transactions</p>
+        {% else %}
+            <p>Create account</p>
+        {% endif %}
+    </section>
+
+{% endif %}
+
+{% endblock %}

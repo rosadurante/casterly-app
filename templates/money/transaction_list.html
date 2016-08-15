@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block bodyclass %}{{ block.super }} transaction-view{% endblock %}
+
+{% block content %}
+
+    <section class="section section--form">
+        <header class="section__header">Create transaction</header>
+        <div class="section__content">
+        </div>
+    </section>
+
+    <section class="section section--list">
+        <header class="section__header">Accounts</header>
+        <div class="section__content">
+            <ul class="list">
+                <li class="list__item list__item--header">
+                    <p>Date</p>
+                    <p>Category</p>
+                    <p>Description</p>
+                    <p>Amount</p>
+                </li>
+                {% for transaction in transaction_list %}
+                    <li class="list__item">
+                        <p>{{ transaction.when }}</p>
+                        <p>{{ transaction.category }}</p>
+                        <p>{{ transaction.description }}</p>
+                        <p>{{ transaction.amount }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+{% endblock %}

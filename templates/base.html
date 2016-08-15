@@ -1,0 +1,27 @@
+<!-- doctype html -->
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Casterly</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body class="{% block bodyclass %}{% endblock %}">
+    <section class="section section--navbar">
+        {% include 'partials/navbar.html' %}
+    </section>
+
+    <div class="wrapper wrapper--section">
+        {% block content %}{% endblock %}
+    </div>
+
+    <section class="section section--footer">
+        {% include 'partials/footer.html' %}
+    </section>
+
+    <!-- Scripts -->
+</body>
+</html>
