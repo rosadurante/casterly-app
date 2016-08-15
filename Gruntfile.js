@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 files: {
-                    'casterly/static/css/styles.css' : 'casterly/static/scss/styles.scss'
+                    'static/css/styles.css' : 'static/scss/styles.scss'
                 }
             }
         },

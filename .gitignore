@@ -1,6 +1,7 @@
 *.pyc
 db.sqlite3
+.DS_Store
 .sass-cache
 node_modules
-casterly/static/css
-casterly/static/js/libs
+static/css
+static/js/libs
