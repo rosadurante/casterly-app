@@ -2,16 +2,16 @@
 
 __Casterly__ is a web application that helps you with your everyday finances. In it you can see how much are you spending on each category (shopping, bills, health) and compare month to month.
 
-This project has been built by Pablo Recio (pablo@recio.me) and Rosa Durante (me@rosadurante.com) 
+This project has been built by Pablo Recio (pablo@recio.me) and Rosa Durante (me@rosadurante.com)
 
 
 ## Instalation
 
 This project has some dependencies that need to be in your system:
- * Python 2.7
- * PostgreSQL 9.3
- * Node 0.10
- * Node Package Manager 1.4
+ * Python 2.7.10
+ * PostgreSQL 9.5.3
+ * Node 4.4.3
+ * Node Package Manager 3.8.6
 
 To get started on this project you just need to follow few steps.
 
@@ -31,7 +31,7 @@ $> mkvirtualenv casterly-env
 Let's clone this repo into your local machine:
 
 ```sh
-$> git clone git@github.com:pablorecio/casterly.git
+$> git clone git@github.com:rosadurante/casterly.git
 ```
 
 Then, go to its main folder and install all python dependencies:
@@ -104,4 +104,4 @@ Rosa C/A,bills,mobile,31/01/2014,£12.90,out
 
 ## Contributions
 
-Feel free to improve anything of this project by sending pull requests. You also can contact with us directly on pablo@recio.me and me@rosadurante.com
+Feel free to improve anything of this project by sending pull requests. You also can contact directly on me@rosadurante.com
